@@ -65,10 +65,8 @@ class Surfboard
 
         // Subscription link
         $subsURL = Helper::getSubscribeUrl("/api/v1/client/subscribe?token={$user['token']}");
-        $subsDomain = $_SERVER['SERVER_NAME'];
 
         $config = str_replace('$subs_link', $subsURL, $config);
-        $config = str_replace('$subs_domain', $subsDomain, $config);
         $config = str_replace('$proxies', $proxies, $config);
         $config = str_replace('$proxy_group', rtrim($proxyGroup, ', '), $config);
 
