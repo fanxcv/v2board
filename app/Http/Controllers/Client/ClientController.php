@@ -57,7 +57,8 @@ class ClientController extends Controller
                 $copy = unserialize(serialize($server));
                 $copy['host'] = $host;
                 if (!$skipMarkIndex) {
-                    $copy['name'] = join(' - ', [$copy['name'], $idx + 1]);
+                    // $copy['name'] = join(' - ', [$copy['name'], $idx + 1]);
+                    $copy['name'] = join(' - ', [$copy['name'], $host]);
                 }
                 return $copy;
             }, $hosts, array_keys($hosts));
