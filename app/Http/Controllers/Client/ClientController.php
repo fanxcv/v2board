@@ -47,7 +47,7 @@ class ClientController extends Controller
 
             // 为空的情况直接丢弃
             if (empty($hosts)) {
-                return  [];
+                return [];
             }
 
             // 是否需要在名称后面添加索引
@@ -55,10 +55,14 @@ class ClientController extends Controller
 
             return array_map(function ($host, $idx) use ($server, $skipMarkIndex) {
                 $copy = unserialize(serialize($server));
-                $copy['host'] = $host;
+                $host_arr = explode(':', $host);
+                $copy['host'] = $host_arr[0];
+                if (count($host_arr) == 2) {
+                    $copy['port'] = $host_arr[1];
+                }
                 if (!$skipMarkIndex) {
                     // $copy['name'] = join(' - ', [$copy['name'], $idx + 1]);
-                    $copy['name'] = join(' - ', [$copy['name'], $host]);
+                    $copy['name'] = join(' - ', [$copy['name'], $copy['host']]);
                 }
                 return $copy;
             }, $hosts, array_keys($hosts));
