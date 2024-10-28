@@ -55,11 +55,19 @@ class ClientController extends Controller
 
             return array_map(function ($host, $idx) use ($server, $skipMarkIndex) {
                 $copy = unserialize(serialize($server));
-                // $host_arr = explode(':', $host);
-                $copy['host'] = $host;
+                $host_arr = explode(':', $host);
+                $count = count($host_arr)
+                if ($count == 1) {
+                    $copy['host'] = $host_arr[0];
+                } elseif ($count == 2) {
+                    $copy['host'] = $host_arr[0];
+                    $copy['port'] = $host_arr[1];
+                } else {
+                    $copy['host'] = $host;
+                }
                 if (!$skipMarkIndex) {
                     // $copy['name'] = join(' - ', [$copy['name'], $idx + 1]);
-                    $copy['name'] = join(' - ', [$copy['name'], $copy['host']]);
+                    $copy['name'] = join(' - ', [$copy['name'], $host]);
                 }
                 return $copy;
             }, $hosts, array_keys($hosts));
