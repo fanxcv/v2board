@@ -126,7 +126,7 @@ class Clash
                 if (isset($wsSettings['path']) && !empty($wsSettings['path']))
                     $array['ws-opts']['path'] = $wsSettings['path'];
                 if (isset($wsSettings['max-early-data']) && !empty($wsSettings['max-early-data']))
-                    $array['ws-opts']['max-early-data'] = $wsSettings['max-early-data'];
+                    $array['ws-opts']['max-early-data'] = intval($wsSettings['max-early-data']);
                 if (isset($wsSettings['early-data-header-name']) && !empty($wsSettings['early-data-header-name']))
                     $array['ws-opts']['early-data-header-name'] = $wsSettings['early-data-header-name'];
                 if (isset($wsSettings['headers']['Host']) && !empty($wsSettings['headers']['Host']))
