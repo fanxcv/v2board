@@ -60,7 +60,7 @@ class ClientController extends Controller
                     $copy['host'] = $host_arr[0];
                 } elseif (count($host_arr) == 2) {
                     $copy['host'] = $host_arr[0];
-                    $copy['port'] = intval($host_arr[1];
+                    $copy['port'] = intval($host_arr[1]);
                 } else {
                     $copy['host'] = $host;
                 }
