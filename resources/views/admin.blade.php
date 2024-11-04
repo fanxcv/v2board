@@ -24,6 +24,16 @@
             secure_path: '{{$secure_path}}'
         }
     </script>
+
+    <style>
+        .ant-table-row > td:nth-of-type(4) > span {
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            max-width: 400px;
+            display: inline-block;
+        }
+    </style>
 </head>
 
 <body>
