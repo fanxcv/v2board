@@ -21,6 +21,7 @@ class ClientController extends Controller
         if ($userService->isAvailable($user)) {
             $serverService = new ServerService();
             $servers = $serverService->getAvailableServers($user);
+            $servers = $this->extractServers($servers);
             $this->setSubscribeInfoToServers($servers, $user);
             if ($flag) {
                 foreach (glob(app_path('Http//Controllers//Client//Protocols') . '/*.php') as $file) {
@@ -38,6 +39,64 @@ class ClientController extends Controller
         }
     }
 
+    private function extractServers($servers) {
+        $map = $this->createHostMap($servers);
+
+        return array_merge([], ...array_map(function ($server) use ($map) {
+            $hosts = explode(',', $this->findHostMap($map, $server['host']));
+
+            // 为空的情况直接丢弃
+            if (empty($hosts)) {
+                return [];
+            }
+
+            // 是否需要在名称后面添加索引
+            $skipMarkIndex = count($hosts) < 2;
+
+            return array_map(function ($host, $idx) use ($server, $skipMarkIndex) {
+                $copy = unserialize(serialize($server));
+                $host_arr = explode(':', $host);
+                if (count($host_arr) == 1) {
+                    $copy['host'] = $host_arr[0];
+                } elseif (count($host_arr) == 2) {
+                    $copy['host'] = $host_arr[0];
+                    $copy['port'] = intval($host_arr[1]);
+                } else {
+                    $copy['host'] = $host;
+                }
+                if (!$skipMarkIndex) {
+                    // $copy['name'] = join(' - ', [$copy['name'], $idx + 1]);
+                    $copy['name'] = join(' - ', [$copy['name'], $host]);
+                }
+                return $copy;
+            }, $hosts, array_keys($hosts));
+        }, $servers));
+    }
+
+    private function createHostMap($servers)
+    {
+        return array_combine(
+            array_map(function ($item) {
+                return $item['id'];
+            }, $servers),
+            array_map(function ($item) {
+                return $item['host'];
+            }, $servers)
+        );
+    }
+
+    private function findHostMap($map, $pattern) {
+        if (str_starts_with($pattern, '=')) {
+            $key = substr($pattern, 1);
+            if (isset($map[$key])) {
+                return $this->findHostMap($map, $map[$key]);
+            } else {
+                return '';
+            }
+        }
+        return $pattern;
+    }
+    
     private function setSubscribeInfoToServers(&$servers, $user)
     {
         if (!isset($servers[0])) return;

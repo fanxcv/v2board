@@ -68,7 +68,6 @@ class Surfboard
         $subsDomain = $_SERVER['HTTP_HOST'];
 
         $config = str_replace('$subs_link', $subsURL, $config);
-        $config = str_replace('$subs_domain', $subsDomain, $config);
         $config = str_replace('$proxies', $proxies, $config);
         $config = str_replace('$proxy_group', rtrim($proxyGroup, ', '), $config);
 

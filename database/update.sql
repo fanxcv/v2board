@@ -657,3 +657,8 @@ ALTER TABLE `v2_server_v2ray`
 
 ALTER TABLE `v2_server_vmess`
     CHANGE `network` `network` varchar(11) COLLATE 'utf8mb4_general_ci' NOT NULL AFTER `rate`;
+ALTER TABLE `v2_server_v2ray`
+    CHANGE `host` `host` varchar(1024) NOT NULL;
+
+ALTER TABLE `v2_server_v2ray`
+    CHANGE `host` `host` varchar(4096) NOT NULL;
