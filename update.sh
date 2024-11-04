@@ -11,7 +11,7 @@ if ! command -v git &> /dev/null; then
 fi
 
 git config --global --add safe.directory $(pwd)
-git fetch --all && git reset --hard origin/1.7.3 && git pull origin 1.7.3
+git fetch --all && git reset --hard origin/main-1.7.3 && git pull origin main-1.7.3
 rm -rf composer.lock composer.phar
 wget https://github.com/composer/composer/releases/latest/download/composer.phar -O composer.phar
 php composer.phar update -vvv
